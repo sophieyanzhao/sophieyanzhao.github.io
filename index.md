@@ -19,7 +19,3 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 - [Discussions]
 - [Advanced Features]
 - [Citations]
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
