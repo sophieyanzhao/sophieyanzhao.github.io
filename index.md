@@ -10,7 +10,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 ### Table of Contents
 
 - [Model](http://sophieyanzhao.github.io/model)
-  * [Model]
+  * [Model](#model.md)
   * [Data]
   * [Parallel Application]
 - [Performance](#on-the-right)
