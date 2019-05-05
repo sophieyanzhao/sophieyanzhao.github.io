@@ -37,7 +37,7 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 
 
 ### Table of Contents
-- [Paste Your Document In Here](#paste-your-document-in-here)
+- [Paste Your Document In Here](https://sophieyanzhao.github.io/model)
   * [And a table of contents](#and-a-table-of-contents)
   * [On the right](#on-the-right)
 
