@@ -35,6 +35,15 @@ For more details see [GitHub Flavored Markdown](https://guides.github.com/featur
 
 Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sophieyanzhao/sophieyanzhao.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
+
+### Table of Contents
+- [Paste Your Document In Here](#paste-your-document-in-here)
+  * [And a table of contents](#and-a-table-of-contents)
+  * [On the right](#on-the-right)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
