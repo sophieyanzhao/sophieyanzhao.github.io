@@ -9,16 +9,16 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ### Table of Contents
 
-- [Paste Your Document In Here](#paste-your-document-in-here)
-  * [And a table of contents](#and-a-table-of-contents)
-  * [On the right](#on-the-right)
-- [Model Design](http://sophieyanzhao.github.io/model)
-  * [Performance](#on-the-right)
-  * [Reproduction Instruction]()
-  * [Experiments and Performance Results]
-  * [Discussions]
-  * [Advanced Features]
-  * [Citations]
+- [Model](http://sophieyanzhao.github.io/model)
+  * [Model]
+  * [Data]
+  * [Parallel Application]
+- [Performance](#on-the-right)
+- [Reproduction Instruction]()
+- [Experiments and Performance Results]
+- [Discussions]
+- [Advanced Features]
+- [Citations]
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
