@@ -9,8 +9,13 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ### Table of Contents
 
-* [Model](http://sophieyanzhao.github.io/model)
+#[Model Design](http://sophieyanzhao.github.io/model)
 * [Performance](#on-the-right)
+* [Reproduction Instruction]()
+* [Experiments and Performance Results]
+* [Discussions]
+* [Advanced Features]
+* [Citations]
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
