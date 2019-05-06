@@ -21,10 +21,6 @@ For example, we tested our sequential code with 1% of the data locally. ***Descr
 ### Table of Contents
 
 - [Model](http://sophieyanzhao.github.io/model)
-  * [Model](#model.md)
-  * [Data]
-  * [Parallel Application]
 - [Reproduction Instruction](http://sophieyanzhao.github.io/reproduction)
 - [Experiments and Performance Results](http://sophieyanzhao.github.io/performance)
-- [Discussions]
-- [Advanced Features]
+- [Discussions](http://sophieyanzhao.github.io/discussion)
