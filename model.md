@@ -1,8 +1,8 @@
 # Model Design
 
-## Data and Preprocessing
+## I. Data and Preprocessing
 
-### Serial Version
+### I.1. Serial Version
 
 In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as an indicator of the sentiment in the review.
 
@@ -16,7 +16,7 @@ Second, in order for RNN to process our data efficiently, we need to remove stop
 
 Lastly, the input to our RNN needs to have a fixed length, which we set to be 100. After the removal of stopwords, sequences that are too long are truncated, and sequences too short are padded. 
 
-### Parallelization
+### I.2. Parallelization
 
 The data preprocessing task is parallelized through MapReduce. The mapper reads in the raw data, removes special characters from the text, and outputs only the text and the ratings. The reducer reads in the output of the mapper, sorted first by the text, so that repeated text are together. It further processes the text (remove stopwords, map words to numbers, and truncate or pad to achieve ideal length). Furthermore, it calculates the mode of ratings for each distinct review text and maps it to 0 or 1 to indicate negative or positive sentiment. This sentiment indicator value is appended to the end of the text sequence, and the output is written as a numpy array in an h5 file.
 
@@ -26,15 +26,15 @@ Because our dataset is so large, we perform the MapReduce process on an AWS EMR 
 
 We combine these intermediate h5 files into one single file on an m4.2xlarge EC2 instance so that it has larger memory to handle large arrays. In this final h5 file, data from each intermediate file is grouped in one dataset, and each entry of data (a pair of word sequence and sentiment indicator) is stored as a chunk.
 
-## RNN Model
+## II. RNN Model
 
-### Serial Version
+### II.1. Serial Version
 
 Due to serial nature of customer reviews, we use Recurrent Neural Network to model the time dependency of words in each sentences and predict whether the review is positive or negative. We apply LSTM layers instead of regular recurrent neural network because it is more robust to vanishing or exploding gradient problems. We trained an embedding layer to reduce the dimensionality of word representation. Our codes are modified from Subramanian's book: *Deep Learning with Pytorch* RNN chapter. Hyperparameters such as number of layers and hidden dimensions are tuned on our dataset, with careful consideration for the tradeoff between model performance compuational time. 
 
 Our dataset is highly imbalanced, with 12 million 5-rating review, accounting for 59% of the data. To overcome this imbalance, we experimented with multiple loss functions such as MSE(recoding response as continuous), crossEntropy and BCEWithLogitsLoss. We chose loss function to be BCEWithLogitsLoss because it is both numerically stable and has the flexibility to incorporate class weights. We also transformed the reviews to be binary(with 1-3 as negative and 4-5 to be positive) to combat the imbalance problem. The dataset class breakdown before and after this change is reported in details in our data section.
 
-### Parallelization
+### II.2. Parallelization
 
 
 
