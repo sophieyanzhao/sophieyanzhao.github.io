@@ -57,7 +57,7 @@ Please go to EC2 dashboard and select `Launch Instance`.
 
 After connecting to the instance, you need to first install boto3 and h5py with the following commands:
 
-`sudo apt update`
+```sudo apt update```
 
 `sudo apt install python-pip`
 
