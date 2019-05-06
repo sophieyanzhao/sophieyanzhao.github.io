@@ -9,9 +9,8 @@ In this project, we use raw Amazon product review data from [1] and [2]. This pu
 The first preprocessing step is to remove duplicates of text, in order to reduce unnecessary noises as well as to shrink data size. Because our project focuses on analyzing the sentiments within text, reviewer and product information is irrelevent. Thus, we remove duplicates only by the content of the review. Repeated text often have different ratings, and we only keep the one that appears the most. When there is a draw in frequency, we keep the smaller one with the attempt to balance the dataset, since we find that a majority of the reviews already have ratings of 5. After removing duplicates of text, we are left with 21.3 million distinct reviews.
 
 The ratings have a range of 1 to 5, and the distribution is illustrated in the histogram below. We combine 1, 2, and 3 to indicate negative sentiment, and we combine 4 and 5 to indicate positive sentiment. The distribution after such grouping is also illustrated below.
-![picture](rating_dist.png)
 
-***HISTOGRAM OF RATING DISTRIBUTION and POST-COMBINATION DISTRIBUTION***
+![picture](rating_dist.png)
 
 Second, in order for RNN to process our data efficiently, we need to remove stopwords (words with little contribution to sentiment classification) and map the other meaningful words to numbers. The stopwords are inherited from the nltk package, and we add additional stopwords like 'product', 'would', and 'get'. The word-number dictionary are generated from our own dataset, in which only the most frequently appeared 10,000 words are kept. Words not included in this dictionary are mapped to a specific number indicating 'unknown'.
 

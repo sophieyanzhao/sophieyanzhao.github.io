@@ -3,9 +3,20 @@ title: Large-Scale Distributed Sentiment Analysis with RNN
 ---
 ## Introduction
 
-You can use the [Project Link](https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs) to maintain and preview the content for your website in Markdown files.
+### Motivation and Project Statement
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+In the current era, social medias are so common that people are constantly expressing their feelings through text. There are tremendous business values underlying this information. **Therefore, we hope to perform sentiment analysis with Recurrent Neural Networks (RNN) in order to uncover whether a piece of text has positive or negative sentiment.** 
+
+***SOLUTION***
+
+### The Need for Big Data and HPC
+
+This is a big data and big compute combined problem. It involves big data because in our selected dataset, we handle 92.45 GB of 142.8 million reviews. It involves big compute because during the traning process of RNN, we need to frequently perform Stochastic Gradient Descent (SGD). Moreover, because of the nature of natural language processing, the vector representations of the text can potentially have very high dimensionality.
+
+For example, we tested our sequential code with 1% of the data locally. ***Description of instance...*** It took XXX minutes for data preprocessing and XXX minutes for the RNN model to run XX epochs and achieve XXX accuracy.
+
+
+### Comparison with Existing Work
 
 ### Table of Contents
 
@@ -13,8 +24,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
   * [Model](#model.md)
   * [Data]
   * [Parallel Application]
-- [Performance](#on-the-right)
-- [Reproduction Instruction]()
-- [Experiments and Performance Results]
+- [Reproduction Instruction](http://sophieyanzhao.github.io/reproduction)
+- [Experiments and Performance Results](http://sophieyanzhao.github.io/performance)
 - [Discussions]
 - [Advanced Features]
