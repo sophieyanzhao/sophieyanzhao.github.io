@@ -6,10 +6,11 @@ The main overhead comes from sequential code. First, to remove stopwords, we nee
 
 A second source of overhead is communication. To avoid overwriting, each node in the EMR cluster writes its own h5 file and uploads to the S3 bucket. This time is reduced by having multiple nodes process the data and each upload a section of processed data at the same time.
 
-The speedup of using different numbers of worker nodes in the cluster is illustrated below. We observe
+The speedup of using different numbers of worker nodes in the cluster is illustrated below. We observe that the speedup is nonlinear, and the efficiency is decreasing, indicating weak scaling.
 
 ***Speedup plot of running MapReduce on different numbers of worker nodes***
 
+***Efficiency plot (SPEEDUP/#Nodes)***
 
 
 
