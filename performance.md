@@ -1,8 +1,10 @@
 ## Experiments and Performance Results
-- [I. Data Preprocessing](#i-data-preprocessing)
+
+## Table of Contents
+1. [I. Data Preprocessing](#i-data-preprocessing)
   * [Speedup plot MapReduce](#speedup-plot-mapreduce)
   * [Efficiency plot](#efficiency-plot)
-- [II. RNN+SGD](#ii-rnn-sgd)
+2. [II. RNN+SGD](#ii-rnn-sgd)
 
 ### I. Data Preprocessing
 
