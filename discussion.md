@@ -1,8 +1,5 @@
 # Discussion
 
-Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
-## [Back to Homepage](http://sophieyanzhao.github.io)
-
 ## Table of Contents
 1. [Goals Achieved](#Goals-Achieved)
   * [Machine Learning](#Machine-Learning)
