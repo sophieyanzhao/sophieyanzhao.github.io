@@ -41,10 +41,13 @@ Recurrent Neural Network is parallelized through Pytorch Distributed Data Parall
 
 ![](Pytorch_flow.png)
 
-The parallelization is carried in a SPMD (single program multiple data) manner. At first, each GPU gets its own share of the data by determining its split deterministically. For instance, for 2 nodes first one takes the fist half of a deterministically shuffled data based on a random seed equal to the current epoch. Then, via NCLL the model is replicated on all GPUs to keep a single program. During the forward and backward propagation, each GPU calculates its own loss and the corresponding gradient. The gradients are first divided by the batch size and then sum reduced together and averaged to get the corresponding averaged gradient. This gradient is scattered back to all GPUs so that the update would result in the same model again to repeat this process. Most of this process has been wrapped by Pytorch distributed modules, but this knowledge is necessary for us to implement our own dynamic load balancing features.
+The parallelization is carried in a SPMD (single program multiple data) manner. At first, each GPU gets its own share of the data by determining its split deterministically. For instance, for 2 nodes first one takes the fist half of a deterministically shuffled data based on a random seed equal to the current epoch. Then, via NCLL the model is replicated on all GPUs to keep a single program. During the forward and backward propagation, each GPU calculates its own loss and the corresponding gradient. The gradients are first divided by the batch size and then sum reduced together and averaged to get the corresponding averaged gradient. This gradient is scattered back to all GPUs so that the update would result in the same model again to repeat this process. Most of this process has been wrapped by Pytorch distributed modules, but this knowledge is necessary for us to implement our own dynamic load balancing.
 
 ### II.3. Advanced Feature
 
+Besides the Bootstrap Actions on MapReduce and parallelizing a neural network on Pytorch (topics not taught during the course), we also implement a dynamic load balancer for the neural network. Looking at the Pytorch distributed source code, we realized that Pytorch distributes the same batch size and amount of data for each GPU indiscriminately. However, this would introduce a huge bottleneck for a mixed GPU setup or when some GPUs are slower than others due to thermal cooling or other uncontrollable traffics. This bottleneck is caused by the fact that at the gradient aggregation step, we need to wait for all GPUs to finish forward and backward propagations to synchronize - this would result in a huge load imbalance if there is one GPU much slower than the rest. **INSERT PICTURE HERE AND EXPLAIN**. 
+
+To mitigate this load imbalancer, we create our own dynamic load balancer 
 
 
 
