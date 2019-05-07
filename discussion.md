@@ -2,13 +2,13 @@
 Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 
 ## Table of Contents
-1. [Goals Achieved](#Goals-Achieved)
-  * [Machine Learning](#Machine-Learning)
-  * [Data Processing](#Data-Processing)
-  * [Distributed Computing](#Distributed-Computing)
-2. [Lessons Learnt](#Lessons-Learnt)
-3. [Future Work](#Future-Work)
-4. [Interesting Insights](#Interesting-Insights)
+1. [Goals Achieved](#goals-achieved)
+  * [Machine Learning](#machine-learning)
+  * [Data Processing](#data-processing)
+  * [Distributed Computing](#distributed-computing)
+2. [Lessons Learnt](#lessons-learnt)
+3. [Future Work](#future-work)
+4. [Interesting Insights](#interesting-insights)
 
 
 ## Goals Achieved:
