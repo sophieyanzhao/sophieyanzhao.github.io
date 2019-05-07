@@ -2,6 +2,16 @@
 
 The entire model is a 2 step process - the first one involves preprocessing the data using MapReduce, and the second one parallelizes Recurrent Neural Network on multiple GPUs using PyTorch CUDA+NCCL backend. AWS has been used for flexibility to test tradeoffs for different number of GPUs, nodes and different kind of GPU models. 
 
+
+## Table of Contents
+1. [Data and Preprocessing](#Data-and-Preprocessing)
+  * [Serial Version](#Serial-Version)
+  * [Parallelization](#Parallelization)
+2. [RNN Model](#RNN-Model)
+  * [Serial Version](#Serial-Version)
+  * [Parallelization](#Parallelization)
+3. [Advanced Feature](#Advanced Feature)
+
 ## I. Data and Preprocessing
 
 ### I.1. Serial Version
