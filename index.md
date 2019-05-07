@@ -16,11 +16,11 @@ For example, It took XXX minutes for data preprocessing on **HOW MANY NODES AND 
 
 ### Our Solution
 
-**DESCRIBE MAP REDUCE** We employ MapReduce on AWS cluster to first preprocess the large amount of data. HDF5 file format has been used to load the data without blowing up the memory. After preprocessing the data, we use a AWS GPU cluster to distribute the workload across multiple GPUs to speed up this process. 
+**DESCRIBE MAP REDUCE** We employ MapReduce on AWS cluster to first preprocess the large amount of data. HDF5 file format has been used to load the data without blowing up the memory. After processing the data, we use a AWS GPU cluster to distribute the workload across multiple GPUs by using large minibatch technique to speed up the RNN training on Pytorch and using its MPI interface with NCCL backend for communication between nodes. 
 
 ### Comparison with Existing Work
 
-
+This parallelization solution has been inspired by Goyal et al.'s "Accurate, Large Minibatch SGD" on how they used Caffe2 with 256 GPUs to train ResNet 50 with large minibatch in 1 hour from 8 GPUs taking 29 hours. In our case, our work is based on Pytorch and parallelizes a RNN instead, and we focus on parallelization tradeoffs. **JIANZHUN ADD OTHER DETAILS**
 
 ### Table of Contents
 
