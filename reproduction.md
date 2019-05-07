@@ -2,7 +2,7 @@
 
 Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 
-**Our source code can be found at**[link](https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs)
+**Our source code can be found at** [link](https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs)
 
 ## Table of Contents
 1. [Data Preprocessing](#i-data-preprocessing)
