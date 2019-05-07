@@ -20,7 +20,7 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 
 ### I.0. Data Description
 
-In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as an indicator of the sentiment in the review.
+In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as a proxy of the sentiment in the review. Review data are quite abundant that we would need distributed algorithms to match our needs to process the data and perform the analysis in a reasonable amount of time.
 
 ### I.1. Serial Version
 
