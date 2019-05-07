@@ -1,5 +1,7 @@
 # Model Design
 
+The entire model is a 2 step process - the first one involves preprocessing the data using MapReduce, and the second one parallelizes Recurrent Neural Network on multiple GPUs using Pytorch CUDA+NCCL backend. AWS has been used for flexibility to test tradeoffs for different number of GPUs, nodes and different kind of GPU models. 
+
 ## I. Data and Preprocessing
 
 ### I.1. Serial Version
@@ -37,17 +39,20 @@ Our dataset is highly imbalanced, with 12 million 5-rating review, accounting fo
 
 ### II.2. Parallelization
 
-Recurrent Neural Network is parallelized through Pytorch Distributed Data Parallel module with CUDA, using NCCL backend (an MPI-interface) for multi-GPU communcation as shown in the diagram below. And the data loading process is parallelized through Pytorch Distributed Sampler module, which assign each node deterministically its own portion of the data using a random seed equal to the current epoch. This avoids the need of communicating the split of data across each node. In addition, multiple cores have been used to load the data through Pytorch wrapper for the native `multiprocessing` module. 
+Recurrent Neural Network is parallelized through Pytorch Distributed Data Parallel module with CUDA, using NCCL backend (an MPI-interface) for multi-GPU communcation as shown in the diagram below. And the data loading process is parallelized through Pytorch Distributed Sampler module, which assign each node deterministically its own portion of the data using a random seed equal to the current epoch. This avoids the need of communicating the split of data across each node. In addition, multiple cores have been used to load the data through Pytorch wrapper for the native `multiprocessing` module, as the amount of data to load is quite large for a single core to handle.
 
 ![](Pytorch_flow.png)
 
 The parallelization is carried in a SPMD (single program multiple data) manner. At first, each GPU gets its own share of the data by determining its split deterministically. For instance, for 2 nodes first one takes the fist half of a deterministically shuffled data based on a random seed equal to the current epoch. Then, via NCLL the model is replicated on all GPUs to keep a single program. During the forward and backward propagation, each GPU calculates its own loss and the corresponding gradient. The gradients are first divided by the batch size and then sum reduced together and averaged to get the corresponding averaged gradient. This gradient is scattered back to all GPUs so that the update would result in the same model again to repeat this process. Most of this process has been wrapped by Pytorch distributed modules, but this knowledge is necessary for us to implement our own dynamic load balancing.
 
+Given how this is both a GPU (computing the network weights) and CPU intensive task (loading the data), we parallelize this with multiple nodes to gain access to multiple GPUs and processors, by launching a GPU cluster on AWS. As G3 instance (8 physical CPUs) contain more processors than P2 (4 physical CPUs), we choose mostly G3 for our experiments. AWS has been used for the flexibility to customize with different setups. 
+
 ### II.3. Advanced Feature
 
 Besides the Bootstrap Actions on MapReduce and parallelizing a neural network on Pytorch (topics not taught during the course), we also implement a dynamic load balancer for the neural network. Looking at the Pytorch distributed source code, we realized that Pytorch distributes the same batch size and amount of data for each GPU indiscriminately. However, this would introduce a huge bottleneck for a mixed GPU setup or when some GPUs are slower than others due to thermal cooling or other uncontrollable traffics. This bottleneck is caused by the fact that at the gradient aggregation step, we need to wait for all GPUs to finish forward and backward propagations to synchronize - this would result in a huge load imbalance if there is one GPU much slower than the rest. **INSERT PICTURE HERE AND EXPLAIN**. 
 
-To mitigate this load imbalancer, we create our own dynamic load balancer 
+To mitigate this load imbalance, we create a own dynamic load balancer that readjusts the distributed data loaders for each GPU to redistribute the portion of data and the correponding batch size based on the forward runtime. The following diagram illustrates this concept for 4 nodes with 3 g3.4xlarge and 1 p2.xlarge instance.
 
+![](dynamic_load_balancer.png)
 
-
+Each GPU starts off with evenly distributed portions of data and batch size, as we do not know how fast each one is at first. After running one epoch or every X epoch (as defined by the user in the input argument), the forward runtime is gathered from all the GPUs and passed to the dynamic load balancer. The dynamic load balancer uses the that runtime to estimate how fast each GPU is and instantiates a new data loader with the newly distributed portion of data and batch size, replacing the old distributed data loader. In this way, the workload of each GPU is readjusted. Note that the both the amount of data and batch size have been adjusted accordingly so that the total number of iterations on each GPU matches to prevent issues such as communication deadlock where one is waiting for synchronization when another one has already finished its iterations. To implement this dynamic load balancer, we have augmented the Distributed Data Sampler from PyTorch to keep track of data split and percentage of data for re-updating the load estimates. 
