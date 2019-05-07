@@ -1,5 +1,7 @@
 ## Experiments and Performance Results
 
+Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
+
 ## Table of Contents
 1. [Data Preprocessing](#i-data-preprocessing)
   * [Speedup plot MapReduce](#speedup-plot-mapreduce)
