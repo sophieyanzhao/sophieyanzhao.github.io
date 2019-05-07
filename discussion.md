@@ -2,12 +2,14 @@
 
 
 
-# Table of Contents
+## Table of Contents
 1. [Goals Achieved](#Goals-Achieved)
   * [Machine Learning](#Machine-Learning)
+  * [Data Processing](#Data-Processing)
+  * [Distributed Computing](#Distributed-Computing)
 2. [Lessons Learnt](#Lessons-Learnt)
 3. [Future Work](#Future-Work)
-4. [Interesting Insights](#Interesting-Insignts)
+4. [Interesting Insights](#Interesting-Insights)
 
 
 ## Goals Achieved:
@@ -31,5 +33,5 @@ We successfully deployed RNN model to multiple GPU’s and carried out experimen
 2.	Load balancer adjust batch size on each GPU every epoch. Adaptively adjust batch size after a smaller time interval will help speed up the application significantly. 
 3.	It will be interesting to test our application on the newly released P3 GPU instances.
 
-## Interesting Insights
+## Interesting Insights:
 
