@@ -1,5 +1,12 @@
 # Discussion
 
+
+
+# Table of Contents
+1. [Goals Achieved](#Goals-Achieved)
+2. [Lessons Learnt](#Lessons-Learnt)
+
+
 ## Goals Achieved:
 ### Machine Learning 
 The null classifier predicting majority class only achieves 78% accuracy. This is our baseline model.  After experimenting with different loss functions, neural network structures and class weights, we have achieved a best test accuracy around 88% and an f1 score of 87% (we give equal weights to both classes). High f1 score indicates that recall and precision are quite balanced despite the challenge of having only 22% data coming from the negative class.  
