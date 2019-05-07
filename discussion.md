@@ -4,7 +4,10 @@
 
 # Table of Contents
 1. [Goals Achieved](#Goals-Achieved)
+  * [Machine Learning](#Machine-Learning)
 2. [Lessons Learnt](#Lessons-Learnt)
+3. [Future Work](#Future-Work)
+4. [Interesting Insights](#Interesting-Insignts)
 
 
 ## Goals Achieved:
