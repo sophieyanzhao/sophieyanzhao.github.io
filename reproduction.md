@@ -268,4 +268,4 @@ Node 2:
 | g3.16xlarge | 4    | 64   | 488      | 32              | 14000               | 1750                            | 80000                  | NVIDIA Tesla M60 | 
 
 ### CUDA Information
-![p](cuda_info.png =250x250)
+![p](cuda_info.png){:height="60px" width="150px"}
