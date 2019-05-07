@@ -8,6 +8,7 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 ## Table of Contents
 
 1. [Data and Preprocessing](#i-Data-and-Preprocessing)
+  * [Data Description](#i0-Data-Description)
   * [Serial Version](#i1-Serial-Version)
   * [Parallelization](#i2-Parallelization)
 2. [RNN Model](#ii-RNN-Model)
@@ -17,10 +18,11 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 
 ## I. Data and Preprocessing
 
-### I.1. Serial Version
+### I.0. Data Description
 
-**PUT THIS UNDER DATA SECTION?**
 In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as an indicator of the sentiment in the review.
+
+### I.1. Serial Version
 
 The first preprocessing step is to remove duplicates of text, in order to reduce unnecessary noises as well as to shrink data size. Because our project focuses on analyzing the sentiments within text, reviewer and product information is irrelevent. Thus, we remove duplicates only by the content of the review. Repeated text often have different ratings, and we only keep the one that appears the most. When there is a draw in frequency, we keep the smaller one with the attempt to balance the dataset, since we find that a majority of the reviews already have ratings of 5. After removing duplicates of text, we are left with 21.3 million distinct reviews.
 
@@ -34,13 +36,15 @@ Lastly, the input to our RNN needs to have a fixed length, which we set to be 10
 
 ### I.2. Parallelization
 
-The data preprocessing task is parallelized through MapReduce. The mapper reads in the raw data, removes special characters from the text, and outputs only the text and the ratings. The reducer reads in the output of the mapper, sorted first by the text, so that repeated text are together. It further processes the text (remove stopwords, map words to numbers, and truncate or pad to achieve ideal length). Furthermore, it calculates the mode of ratings for each distinct review text and maps it to 0 or 1 to indicate negative or positive sentiment. This sentiment indicator value is appended to the end of the text sequence, and the output is written as a numpy array in an h5 file.
+The data preprocessing task is parallelized through MapReduce. The mapper reads in the raw data, removes special characters from the text, and outputs only the text and the ratings. The reducer reads in the output of the mapper, sorted first by the text, so that repeated text are together. It further processes the text (remove stopwords, map words to numbers, and truncate or pad to achieve ideal length). Furthermore, it calculates the mode of ratings for each distinct review text and maps it to 0 or 1 to indicate negative or positive sentiment. This sentiment indicator value is appended to the end of the text sequence, and the output is written as a numpy array.
 
 ![picture](MapReduce_Illustration.png)
 
+One of our biggest challenge is how to store the processed data to allow efficient writing and reading without blowing up the memory. We considered json and pickle, but they both have the problem that if we try to read from the file, we need to first load the content of the entire file. We also considered saving each text sequence in a separate file, but that introduces extensive communication overhead during RNN training. Thus, we choose save our data as chunked datasets in an hdf5 file. The benefit is that the program only loads the small chunks of data that we specify by dataset key and chunk index. 
+
 Because our dataset is so large, we perform the MapReduce process on an AWS EMR cluster. The cluster reads data from an S3 bucket. In order to prevent overwriting the results, each worker node generates a separate h5 file and uploads it back to the S3 bucket, and the files are differentiated by including the host name of the node in the file name. We found that best performance is achieved through having eight m4.xlarge worker nodes in the cluster. 
 
-We combine these intermediate h5 files into one single file on an m4.2xlarge EC2 instance so that it has larger memory to handle large arrays. In this final h5 file, data from each intermediate file is grouped in one dataset, and each entry of data (a pair of word sequence and sentiment indicator) is stored as a chunk.
+We combine these intermediate h5 files into one single file on an m4.2xlarge EC2 instance so that it has larger memory to handle large arrays. Again, to avoid exceeding the memory limit, in this final h5 file, data from each intermediate file is grouped in one dataset, and each entry of data (a pair of word sequence and sentiment indicator) is stored as a chunk.
 
 ## II. RNN Model
 
