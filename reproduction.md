@@ -17,14 +17,14 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
      + [Running Python File](#running-python-file)
      + [Final Setting](#final-setting)
 2. [RNN with Distributed SGD](#ii-rnn-with-distributed-sgd)
-    * [Deploying GPU Cluster on AWS](#deploying-gpu-cluster-on-aws)
-    * [Environment Setup](#environment-setup)
-    * [Getting the processed data](#getting-the-processed-data)
-    * [Running the sequential version (only need 1 node)](#running-the-sequential-version--only-need-1-node-)
-    * [Profiling the sequential version](#profiling-the-sequential-version)
+  * [Deploying GPU Cluster on AWS](#deploying-gpu-cluster-on-aws)
+  * [Environment Setup](#environment-setup)
+  * [Getting the processed data](#getting-the-processed-data)
+  * [Running the sequential version (only need 1 node)](#running-the-sequential-version--only-need-1-node-)
+  * [Profiling the sequential version](#profiling-the-sequential-version)
 3. [Running the distributed version](#running-the-distributed-version)
-    * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
-    * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
+  * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
+  * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
 
 ## I. Data Preprocessing 
 
