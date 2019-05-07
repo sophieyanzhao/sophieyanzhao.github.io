@@ -4,13 +4,16 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 
 
 ## Table of Contents
-1. [Data and Preprocessing](#I.-Data-and-Preprocessing)
-  * [Serial Version](#I.1.-Serial-Version)
-  * [Parallelization](#I.2.-Parallelization)
+
+#i1-headline1
+
+1. [Data and Preprocessing](#iData-and-Preprocessing)
+  * [Serial Version](#i1-Serial-Version)
+  * [Parallelization](#i2-Parallelization)
 2. [RNN Model](##RNN-Model)
-  * [Serial Version](###Serial-Version)
-  * [Parallelization](###Parallelization)
-3. [Advanced Feature](###Advanced-Feature)
+  * [Serial Version](###ii1-Serial-Version)
+  * [Parallelization](###ii2-Parallelization)
+  * [Advanced Feature](###ii3-Advanced-Feature)
 
 ## I. Data and Preprocessing
 
