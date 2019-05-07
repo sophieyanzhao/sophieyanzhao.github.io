@@ -266,3 +266,6 @@ Node 2:
 | p2.xlarge   | 1    | 4    | 61       | 12              | 750                 | 93.75                           | 6000                   | NVIDIA Tesla K80 | 
 | g3.4xlarge  | 1    | 16   | 122      | 8               | 3500                | 437.5                           | 20000                  | NVIDIA Tesla M60 | 
 | g3.16xlarge | 4    | 64   | 488      | 32              | 14000               | 1750                            | 80000                  | NVIDIA Tesla M60 | 
+
+### CUDA Information
+![p](cuda_info.png)
