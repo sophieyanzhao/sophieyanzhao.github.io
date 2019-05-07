@@ -1,5 +1,7 @@
 # Model Design
 
+Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
+
 The entire model is a 2 step process - the first one involves preprocessing the data using MapReduce, and the second one parallelizes Recurrent Neural Network on multiple GPUs using PyTorch CUDA+NCCL backend. AWS has been used for flexibility to test tradeoffs for different number of GPUs, nodes and different kind of GPU models. 
 
 
