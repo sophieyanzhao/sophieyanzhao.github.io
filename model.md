@@ -10,7 +10,7 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 2. [RNN Model](#RNN-Model)
   * [Serial Version](#Serial-Version)
   * [Parallelization](#Parallelization)
-3. [Advanced Feature](#Advanced Feature)
+3. [Advanced Feature](#Advanced-Feature)
 
 ## I. Data and Preprocessing
 
