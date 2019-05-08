@@ -107,11 +107,11 @@ The results exactly match our intution:
 
 We also experiment our model when the total number of GPUs is fixed. Specifically, with total 4 GPUs, we ran our model on 1 node with 4 GPUs (1 g3.16xlarge instance), 2 nodes with 2 GPUs (2 g3.16xlarge instance, each only use 2 GPUs) and 4 nodes with 1 GPUs (1 g3.16xlarge instance). The results are shown in this table:
 
-| # of Node | # of GPUs | Time (min/epoch) | Speed-up |
-|-----------|-----------|------------------|----------|
-| 1         | 4         | 21.9             | 2.73     |
-| 2         | 2         | 26.4             | 2.27     |
-| 4         | 1         | 23.3             | 2.57     |
+| # of Node | # of GPUs per Node | Time (min/epoch) | Speed-up |
+|-----------|--------------------|------------------|----------|
+| 1         | 4                  | 21.9             | 2.73     |
+| 2         | 2                  | 26.4             | 2.27     |
+| 4         | 1                  | 23.3             | 2.57     |
 
 We can see that 1-node-4-GPU version has best speedup and 2-node-2-GPU version gives the worst speedup. Also, we assess each model's covergence, which are shown in the following plot:
 
