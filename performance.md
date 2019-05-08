@@ -24,3 +24,21 @@ The speedup of using different numbers of worker nodes in the cluster is illustr
 
 
 ### II. RNN + SGD
+#### Code Baseline
+
+We ran sequential RNN(1 node and 1 GPU with AWS P2 Instance). Results are shown below:
+
+|epoch|time(s)|test acc| test f1|
+|-----|-------|--------|--------|
+|1    |6503   |80.29%  |0.85    |
+|2    |6397   |81.46%  |0.85    |
+|3    |6419   |81.91%  |0.85    |
+|4    |6370   |80.39%  |0.85    |
+|5    |6380   |81.01%  |0.85    |
+|6    |6397   |80.92%  |0.85    |
+|7    |6274   |80.96%  |0.85    |
+|8    |6386   |80.42%  |0.85    |
+|9    |6405   |80.02%  |0.85    |
+|10   |6382   |80.07%  |0.85    |
+
+total training time: 17.76 hours
