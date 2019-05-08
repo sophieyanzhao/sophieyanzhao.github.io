@@ -64,6 +64,8 @@ The parallelization is carried in a SPMD (single program multiple data) manner. 
 
 Given how this is both a GPU (computing the network weights) and CPU intensive task (loading the data), we parallelize this with multiple nodes to gain access to multiple GPUs and processors, by launching a GPU cluster on AWS. As G3 instance (8 physical CPUs) contain more processors than P2 (4 physical CPUs), we choose mostly G3 for our experiments. AWS has been used for the flexibility to customize with different setups. 
 
+Finally, to save cost on storage and to prevent from downloading multiple copies of the data, we share the data folder through Network File System (NFS).
+
 ### II.3. Advanced Feature
 
 Besides the Bootstrap Actions on MapReduce and parallelizing a neural network on PyTorch (topics not taught during the course), we also implement a dynamic load balancer for the neural network to augment existing data loader and distributed data sampler modules. Looking at the PyTorch distributed source code, we realized that PyTorch distributes the same batch size and amount of data for each GPU indiscriminately. This would introduce a huge bottleneck for a mixed GPU setup or when some GPUs are slower than others due to thermal cooling or other uncontrollable traffics. This bottleneck is caused by the fact that at the gradient aggregation step, we need to wait for all GPUs to finish forward and backward propagations to synchronize - this would result in a huge load imbalance if there is one GPU much slower than the rest. **INSERT PICTURE HERE AND EXPLAIN**.  
