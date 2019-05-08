@@ -20,7 +20,7 @@ The entire model is a 2 step process - the first one involves preprocessing the 
 
 ### I.0. Data Description
 
-In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as an indicator of the sentiment in the review.
+In this project, we use raw Amazon product review data from [1] and [2]. This public dataset consists of 142.8 million product reviews along with the corresponding ratings, reviewer IDs, product IDs, and other information, spanning from May 1996 to July 2014. It is suitable for our project because we can use the rating as a proxy of the sentiment in the review. Review data are quite abundant that we would need distributed algorithms to match our needs to process the data and perform the analysis in a reasonable amount of time.
 
 ### I.1. Serial Version
 
@@ -50,9 +50,9 @@ We combine these intermediate h5 files into one single file on an m4.2xlarge EC2
 
 ### II.1. Serial Version
 
-Due to serial nature of customer reviews, we use Recurrent Neural Network to model the time dependency of words in each sentences and predict whether the review is positive or negative. We apply LSTM layers instead of regular recurrent neural network because it is more robust to vanishing or exploding gradient problems. We trained an embedding layer to reduce the dimensionality of word representation. Our codes are modified from multiple sources, one of which is Dr. Subramanian's book: *Deep Learning with PyTorch* RNN chapter. Hyperparameters such as number of layers and hidden dimensions are tuned on our dataset, with careful consideration for the tradeoff between model performance and compuational time. 
+Due to serial nature of customer reviews, we use Recurrent Neural Network to model the time dependency of words in each sentences and predict whether the review is positive or negative. We apply LSTM layers instead of regular recurrent neural network because it is more robust to vanishing or exploding gradient problems. We trained an embedding layer to reduce the dimensionality of word representation. Hyperparameters such as number of layers and hidden dimensions are tuned on our dataset, with careful consideration for the tradeoff between model performance and compuational time. 
 
-Our dataset is highly imbalanced, with 12 million 5-rating review, accounting for 59% of the data. After recoding scores into 2 sentiment class for more general interpretability, the positive class is still overwhelming in size. To overcome this imbalance, we experimented with multiple loss functions such as MSE(recoding response as continuous), crossEntropy and BCEWithLogitsLoss. We chose loss function to be BCEWithLogitsLoss because it is both numerically stable and has the flexibility to incorporate class weights. The dataset class breakdown before and after this change is reported in details in our data section.
+Our dataset is highly imbalanced, with 12 million 5-rating review, accounting for 59% of the data. After recoding scores into 2 sentiment class for more general interpretability, the positive class is still overwhelming in size. To overcome this imbalance, we experimented with multiple loss functions such as *MSE* (recoding response as continuous), *crossEntropy* and *BCEWithLogitsLoss*. We chose loss function to be *BCEWithLogitsLoss* because it is both numerically stable and has the flexibility to incorporate class weights. The dataset class breakdown before and after this change is reported in details in our data section.
 
 ### II.2. Parallelization
 
@@ -64,9 +64,12 @@ The parallelization is carried in a SPMD (single program multiple data) manner. 
 
 Given how this is both a GPU (computing the network weights) and CPU intensive task (loading the data), we parallelize this with multiple nodes to gain access to multiple GPUs and processors, by launching a GPU cluster on AWS. As G3 instance (8 physical CPUs) contain more processors than P2 (4 physical CPUs), we choose mostly G3 for our experiments. AWS has been used for the flexibility to customize with different setups. 
 
+Finally, to save cost on storage and to prevent from downloading multiple copies of the data, we share the data folder through Network File System (NFS).
+
 ### II.3. Advanced Feature
 
-Besides the Bootstrap Actions on MapReduce and parallelizing a neural network on PyTorch (topics not taught during the course), we also implement a dynamic load balancer for the neural network. Looking at the PyTorch distributed source code, we realized that PyTorch distributes the same batch size and amount of data for each GPU indiscriminately. This would introduce a huge bottleneck for a mixed GPU setup or when some GPUs are slower than others due to thermal cooling or other uncontrollable traffics. This bottleneck is caused by the fact that at the gradient aggregation step, we need to wait for all GPUs to finish forward and backward propagations to synchronize - this would result in a huge load imbalance if there is one GPU much slower than the rest. **INSERT PICTURE HERE AND EXPLAIN**. 
+Besides the Bootstrap Actions on MapReduce and parallelizing a neural network on PyTorch (topics not taught during the course), we also implement a dynamic load balancer for the neural network to augment existing data loader and distributed data sampler modules. Looking at the PyTorch distributed source code, we realized that PyTorch distributes the same batch size and amount of data for each GPU indiscriminately. This would introduce a huge bottleneck for a mixed GPU setup or when some GPUs are slower than others due to thermal cooling or other uncontrollable traffics. This bottleneck is caused by the fact that at the gradient aggregation step, we need to wait for all GPUs to finish forward and backward propagations to synchronize - this would result in a huge load imbalance if there is one GPU much slower than the rest. In fact, the graph below shows that when mixing GPUs, the performance drops drastically compared to using a cluster of same GPUs.
+![](dynamic.png)
 
 To mitigate this load imbalance, we create our own dynamic load balancer that readjusts the distributed data loaders for each GPU to redistribute the portion of data and the correponding batch size based on the forward runtime. The following diagram illustrates this concept for 4 nodes with 3 g3.4xlarge and 1 p2.xlarge instance.
 

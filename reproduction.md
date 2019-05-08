@@ -7,15 +7,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 ## Table of Contents
 1. [Data Preprocessing](#i-data-preprocessing)
   * [MapReduce](#i1-mapreduce)
-      + [Uploading Files to S3 Bucket](#uploading-files-to-s3-bucket)
-      + [Deploying CPU Cluster on AWS](#deploying-cpu-cluster-on-aws)
-      + [Running MapReduce](#running-mapreduce)
   * [Combine Generate h5 Files](#i2-combine-generate-h5-files)
-      + [Launching Instance](#launching-instance)
-      + [Installing Essential Packages](#installing-essential-packages)
-      + [Modify Instance Volume](#modify-instance-volume)
-      + [Running Python File](#running-python-file)
-      + [Final Setting](#final-setting)
 2. [RNN with Distributed SGD](#ii-rnn-with-distributed-sgd)
   * [Deploying GPU Cluster on AWS](#deploying-gpu-cluster-on-aws)
   * [Environment Setup](#environment-setup)
@@ -25,6 +17,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 3. [Running the distributed version](#running-the-distributed-version)
   * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
   * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
+4. [System Information](#system-information)
 
 ## I. Data Preprocessing 
 
@@ -264,14 +257,22 @@ Node 2:
 ```python -m torch.distributed.launch --nproc_per_node=1 --nnodes=2 --node_rank=1 --master_addr="172.31.35.159" --master_port=23456 dynamic_rnn.py --dir ../cloud/combined_result_5class.h5  --batch 128 --lr 0.1 --epochs 10 --dynamic -1 --workers 8 --n_vocab 10003 --filename model_2n_1g > log.out &```
 
 
-## Instance Informations
-### P2.xLarge
-+ GPU:1
-+ vCPU:4
-+ RAM(GiB):61
-+ Maximum Bandwidth(Mbps): 750
-+ Maximum Throughput(MB/s, 128KB I/O): 93.75
-+ GPU Card: NVIDIA Tesla K80
-+ Max IOPS(16KB I/O): 6000
-+ GPU Memory: 12 GiB
-+ Parallel Processing Cores 2496
+## System Information
+
+### GPU Instances Information
+
+|     | GPUs | vCPU | Mem(GiB) | GPU Memory(GiB) | Max Bandwidth(Mbps) | Max Throughput(MB/s 128 KB I/O) | Maximum IOPS(16KB I/O) | GPU Card         | 
+|-------------|------|------|----------|-----------------|---------------------|---------------------------------|------------------------|------------------| 
+| p2.xlarge   | 1    | 4    | 61       | 12              | 750                 | 93.75                           | 6000                   | NVIDIA Tesla K80 | 
+| g3.4xlarge  | 1    | 16   | 122      | 8               | 3500                | 437.5                           | 20000                  | NVIDIA Tesla M60 | 
+| g3.16xlarge | 4    | 64   | 488      | 32              | 14000               | 1750                            | 80000                  | NVIDIA Tesla M60 | 
+
+### CUDA Information
+![p](cuda_info.png)
+
+
+### CPU Instance on AWS EMR
+|name      |vCPUs|Model Name                             |Memory(L2 Cache)|Operating System  |
+|----------|-----|---------------------------------------|----------------|------------------|
+|m4.xlarge |4    |Inter(R) Xeon(R) CPU E5-2686 v4@2.3GHz |256K            |Ubuntu 16.04.5 LTS|
+|m4.x2large|8    |Intel(R) Xeon(R) CPU E5-2686 v4@2.30GHz|256K            |Ubuntu 16.04.5 LTS|
