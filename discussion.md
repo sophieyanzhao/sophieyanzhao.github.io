@@ -34,4 +34,6 @@ We successfully deployed RNN model to multiple GPU’s and carried out experimen
 
 ## References
 
+“PyTorch 1.0 Distributed Trainer with Amazon AWS¶.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
+
 Subramanian, Vishnu, and Manas Agarwal. Deep Learning with PyTorch: a Practical Approach to Building Neural Network Models Using PyTorch. Packt Publishing, 2018.
