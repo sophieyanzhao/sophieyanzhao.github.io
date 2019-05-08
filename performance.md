@@ -9,10 +9,10 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Performance Analysis](#performance-analysis)
 3. [Running SGD with RNN for Sentiment Analysis](#iii-rnn-sgd)
   * [Code Baseline](#code-baseline)
-  * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
-  * [Experiment with different distribution of GPUs](#experiment-with-different-distribution-of-GPUs)
+  * [Experiment with different number of GPUs](#experiment-with-different-number-of-gpus)
+  * [Experiment with different distribution of GPUs](#experiment-with-different-distribution-of-gpus)
   * [Experiment with different problem size](#experiment-with-different-problem-size)
-  * [Experiment with mixed of GPUs using dynamic load balancer](#experiment-with-mixed-of-GPUs-using-dynamic-load-balancer)
+  * [Experiment with mixed of GPUs using dynamic load balancer](#experiment-with-mixed-of-gpus-using-dynamic-load-balancer)
   * [Money-speed Tradeoff](#money-speed-tradeoff)
   
 
