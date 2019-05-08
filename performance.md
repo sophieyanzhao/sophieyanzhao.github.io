@@ -10,7 +10,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 3. [Running SGD with RNN for Sentiment Analysis](#iii-rnn-sgd)
   * [Code Baseline](#code-baseline)
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
-  * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
+  * [Experiment with different distribution of GPUs](#experiment-with-different-distribution-of-GPUs)
   * [Experiment with different problem size](#experiment-with-different-problem-size)
   * [Experiment with mixed of GPUs using dynamic load balancer](#experiment-with-mixed-of-GPUs-using-dynamic-load-balancer)
   * [Money-speed Tradeoff](#money-speed-tradeoff)
@@ -103,7 +103,7 @@ The results exactly match our intution:
 
   * While the number of GPUs increasing, each GPU will handle a smaller part of data, which means the time of each epoch decreases. Also, the advantage of *Gradient Aggregation* is that the approxmation of gradient can be attained more quickly. From the right plot, in terms of the running time, the model with more GPUs converges faster, which suggests the convergence is accelerated by data parallelism.
   
-#### Experiment with different distributions of GPUs per node for a fixed total number of GPUs
+#### Experiment with different distribution of GPUs
 
 We also experiment our model when the total number of GPUs is fixed. Specifically, with total 4 GPUs, we ran our model on 1 node with 4 GPUs (1 g3.16xlarge instance), 2 nodes with 2 GPUs (2 g3.16xlarge instance, each only use 2 GPUs) and 4 nodes with 1 GPUs (1 g3.16xlarge instance). The results are shown in this table:
 
