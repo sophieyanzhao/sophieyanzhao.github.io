@@ -6,7 +6,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Machine Learning](#machine-learning)
   * [Data Processing](#data-processing)
   * [Distributed Computing](#distributed-computing)
-2. [Lessons Learnt and Interesting Insights](#lessons-learnt-&-interesting-insights)
+2. [Lessons Learnt and Insights](#lessons-learnt-and-insights)
 3. [Future Work](#future-work)
 
 
@@ -21,7 +21,7 @@ The dataset contains around 142 millions reviews, with maximum sentence length o
 ### Distributed Computing
 We successfully deployed RNN model to multiple GPU’s and carried out experiments with varying number of nodes and batch sizes. We also implemented a **dynamic load balancer** that distributes batches of deferring sizes to GPUs based on their performance at the start of each epoch
 
-## Lessons Learnt & Interesting Insights:
+## Lessons Learnt and Insights:
 1.	Money and speed tradeoff: [insert a table]
 2.	It is impossible to load big data files into memory via traditional means. It is necessary to utilize format like HDF5 that allows assignment of dataset without loading it into memory.
 3.	By profiling GPU, we found that the lowest one is a serious bottleneck, which motivates our dynamic load balancer.
