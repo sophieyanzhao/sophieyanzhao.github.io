@@ -75,7 +75,7 @@ In order to see whether our model is *strongly scalable*, we run our model on th
 
 ![p](strong_scaling.png)
 
-Consistent with Facebook's paper, we can see the linear throughput and log-linear speed-up. However, the efficiency decreases as the number of GPUs increases, which indicates our model is not strongly scalable. Further, here we calculate the speedup and efficiency in terms of two "time" - real execution time for 10 epochs and 
+Consistent with Facebook's paper, we can see the linear throughput and log-linear speed-up. However, the efficiency decreases as the number of GPUs increases, which indicates our model is not strongly scalable. Further, here we calculate the speedup and efficiency in terms of two "time" - real execution time for 10 epochs and convergence time when loss is below *0.13*. These two measurments of time both have practical meaning since we are concern with how long each epoch takes and how long the covergence requires. We find that the speedup and efficiency is calculated based on the convergence time is lower, which is reasonable since data parallelism can slow up convergence. 
 
 Also, we investigate into the convergence of our RNN with different number of GPUs. In terms of the number of epochs and execution time, we set the loss value *0.13* as the convergence threshold, and obtain the results as follow:
 
@@ -109,7 +109,7 @@ In order to show weak scaling speedup and efficiency, we randomly sample 25%, 50
 
 ![p](weak_scaling.png)
 
-As we can see, the similar results with strong scaling are obtained under weak scaling setting. 
+As we can see, the similar results with strong scaling are obtained under weak scaling setting. Thus, our model are also not weakly scalable.
 
 
 #### Experiment with mixed of GPUs - advanced feature
