@@ -6,9 +6,9 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Machine Learning](#machine-learning)
   * [Data Processing](#data-processing)
   * [Distributed Computing](#distributed-computing)
-2. [Lessons Learnt](#lessons-learnt)
+2. [Lessons Learnt and Interesting Insights](#lessons-learnt-&-interesting-insights)
 3. [Future Work](#future-work)
-4. [Interesting Insights](#interesting-insights)
+
 
 
 ## Goals Achieved:
@@ -34,3 +34,4 @@ We successfully deployed RNN model to multiple GPU’s and carried out experimen
 
 ## References
 
+Subramanian, Vishnu, and Manas Agarwal. Deep Learning with PyTorch: a Practical Approach to Building Neural Network Models Using PyTorch. Packt Publishing, 2018.
