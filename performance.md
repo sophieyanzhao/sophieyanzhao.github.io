@@ -12,7 +12,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
   * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
   * [Experiment with different problem size](#experiment-with-different-problem-size)
-  * [Experiment with mixed of GPUs - advanced feature](#experiment-with-mixed-of-GPUs---advanced-feature)
+  * [Experiment with mixed of GPUs using dynamic load balancer](#experiment-with-mixed-of-GPUs-using-dynamic-load-balancer)
   
 
 ### Metrics of Performance
@@ -111,7 +111,8 @@ In order to show weak scaling speedup and efficiency, we randomly sample 25%, 50
 
 As we can see, the similar results with strong scaling are obtained under weak scaling setting. Thus, our model are also not weakly scalable.
 
+#### Experiment with mixed of GPUs using dynamic load balancer
 
-#### Experiment with mixed of GPUs - advanced feature
+As we mentioned in *Model Section* and demonstrated in the bar plot below, our dynamic load balancer has shown the success while using mixed GPUs (p2xlarger and g3.4xlarger). 
 
-
+![p](dynamic.png)
