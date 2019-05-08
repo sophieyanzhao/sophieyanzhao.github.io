@@ -6,7 +6,8 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 1. [Data Preprocessing](#i-data-preprocessing)
   * [Speedup plot MapReduce](#speedup-plot-mapreduce)
   * [Efficiency plot](#efficiency-plot)
-2. [RNN+SGD](#ii-rnn-sgd)
+2. [Running SGD with RNN for Sentiment Analysis](#ii-rnn-sgd)
+  * [Code Baseline](#code-baseline)
 
 ### I. Data Preprocessing
 
@@ -23,22 +24,24 @@ The speedup of using different numbers of worker nodes in the cluster is illustr
 
 
 
-### II. RNN + SGD
+### II. Running SGD with RNN for Sentiment Analysis
 #### Code Baseline
 
-We ran sequential RNN(1 node and 1 GPU with AWS P2 Instance). Results are shown below:
+We ran sequential RNN(1 node and 1 GPU with AWS g3.4xlarge Instance). Results are shown below:
 
 |epoch|time(s)|test acc| test f1|
 |-----|-------|--------|--------|
 |1    |3840   |81.41%  |0.85    |
 |2    |3542   |83.48%  |0.86    |
-|3    |3573   |83.59%  |0.86    |
-|4    |3571   |83.73%  |0.86    |
+|3    |3572   |83.59%  |0.86    |
+|4    |3570   |83.73%  |0.86    |
 |5    |3605   |84.36%  |0.86    |
 |6    |3534   |84.29%  |0.86    |
-|7    |3565   |84.22%  |0.86    |
+|7    |3564   |84.22%  |0.86    |
 |8    |3564   |84.76%  |0.86    |
-|9    |3545   |84.43%  |0.86    |
+|9    |3544   |84.43%  |0.86    |
 |10   |3573   |84.96%  |0.86    |
 
-total training time: 9.98 hours
+*Total training time: 9.98 hours*
+
+#### Strong Scaling 
