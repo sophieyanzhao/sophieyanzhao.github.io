@@ -45,6 +45,10 @@ with one-class collaborative filtering. WWW, 2016
 J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based
 recommendations on styles and substitutes. SIGIR, 2015
 
-“PyTorch 1.0 Distributed Trainer with Amazon AWS¶.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
+“PyTorch 1.0 Distributed Trainer with Amazon AWS.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
 
 Subramanian, Vishnu, and Manas Agarwal. Deep Learning with PyTorch: a Practical Approach to Building Neural Network Models Using PyTorch. Packt Publishing, 2018.
+
+Davis, Matt. SnakeViz, jiffyclub.github.io/snakeviz/.
+
+Goyal, Priya, et al. "Accurate, large minibatch sgd: Training imagenet in 1 hour." arXiv preprint arXiv:1706.02677 (2017).
