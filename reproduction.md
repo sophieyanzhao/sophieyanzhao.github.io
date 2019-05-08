@@ -5,23 +5,23 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 **Our source code can be found at** [link](https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs)
 
 ## Table of Contents
-1. [Data Preprocessing](#i-data-preprocessing)
-  * [MapReduce](#i1-mapreduce)
-  * [Combine Generate h5 Files](#i2-combine-generate-h5-files)
-2. [RNN with Distributed SGD](#ii-rnn-with-distributed-sgd)
+1. [Data Preprocessing](#data-preprocessing)
+  * [MapReduce](#mapreduce)
+  * [Combining Generate h5 Files](#combining-generate-h5-files)
+2. [RNN with Distributed SGD](#rnn-with-distributed-sgd)
   * [Deploying GPU Cluster on AWS](#deploying-gpu-cluster-on-aws)
   * [Environment Setup](#environment-setup)
   * [Getting the processed data](#getting-the-processed-data)
-  * [Running the sequential version (only need 1 node)](#running-the-sequential-version--only-need-1-node-)
+  * [Running the sequential version](#running-the-sequential-version)
   * [Profiling the sequential version](#profiling-the-sequential-version)
 3. [Running the distributed version](#running-the-distributed-version)
   * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
   * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
 4. [Dependencies and System Information](#system-information)
 
-## I. Data Preprocessing 
+## Data Preprocessing 
 
-### I.1 MapReduce
+### MapReduce
 
 #### Uploading Files to S3 Bucket
 
@@ -55,7 +55,7 @@ After the cluster is started and bootstrapped, go to `Steps` tab and `Add step`:
 - **Output S3 location**: input a non-existing folder name, e.g.`s3://BucketName/new_folder`
 
 
-### I.2 Combine Generate h5 Files
+### Combining Generate h5 Files
 
 #### Launching Instance
 
@@ -80,7 +80,7 @@ After connecting to the instance, you need to first install boto3 and h5py with 
 
 `pip install h5py`
 
-#### Modify Instance Volume
+#### Modifying Instance Volume
 
 Go to the EC2 dashboard, select `Volumes`, and modify the instance volume to 64GB.
 
@@ -103,9 +103,9 @@ Go to the S3 bucket, select the `Permissions` tab, and set all options under `Pu
 Find the combined h5 file and `Make public` under the `Actions` tab.
 
 
-## II. RNN with Distributed SGD
+## RNN with Distributed SGD
 
-#### Deploying GPU Cluster on AWS
+### Deploying GPU Cluster on AWS
 
 Please go to EC2 dashboard and select `Launch Instance`.
 
@@ -131,7 +131,7 @@ Please go to `Security Groups` and edit the rules
 
 - **Edit Outbound Rules**: Same as inbound.
 
-#### Environment Setup
+### Environment Setup
 
 This setup needs to be done for each node individually.
 
@@ -157,13 +157,13 @@ Upload the scripts to each node or git clone from the repository.
 
 Also, upload the data to each node if running without NFS (Network File System) setup.
 
-#### Getting the processed data
+### Getting the processed data
 
 Download the data processed using MapReduce by executing: 
 
 `wget https://s3.amazonaws.com/cs205amazonreview/combined_result_5class.h5` 
 
-#### Running the sequential version (only need 1 node)
+### Running the sequential version
 
 Run the following command on one node:
 
@@ -175,7 +175,7 @@ One example would be:
 
 `python sequential_rnn.py --dir ../data/combined_result_5class.h5 --batch 128 --lr 0.1 --epochs 10 --workers 8 --n_vocab 10003 --filename model_1n_1g > log_1n_1g_b128.out &`
 
-##### Profiling the sequential version
+#### Profiling the sequential version
 
 If you want to profile the sequential code, please replace `python` with `python -m cProfile` in the command above, as shown below:
 
@@ -209,7 +209,7 @@ Node 2:
 
 ```python -m torch.distributed.launch --nproc_per_node=1 --nnodes=2 --node_rank=1 --master_addr="172.31.35.159" --master_port=23456 dynamic_rnn.py --dir ../data/combined_result_5class.h5  --batch 128 --lr 0.1 --epochs 10 --dynamic -1 --workers 8 --n_vocab 10003 --filename model_2n_1g > log.out &```
 
-#### Configure NFS for file sharing
+### Configure NFS for file sharing
 
 This is inspired by `Harvard CS205 - Spring 2019 - Infrastructure Guide - I7 - MPI on AWS`, but with modifications to bypass the extra user account created, which is unnecessary in this setting.
 
@@ -233,10 +233,9 @@ Configure the NFS client on other nodes:
 
 - Mount the shared directory: `node$ sudo mount -t nfs <Master Node Private IP>:/home/ubuntu/cloud /home/ubuntu/cloud`
 
-- Make the mount permanent (optional): add the following line `<Master Node Private>:/home/ubuntu/cloud /home/ubuntu/cloud nfs` to `/etc/fstab` by executing `node$ sudo vi /etc/fstab
-`
+- Make the mount permanent (optional): add the following line `<Master Node Private>:/home/ubuntu/cloud /home/ubuntu/cloud nfs` to `/etc/fstab` by executing `node$ sudo vi /etc/fstab`
 
-#### Running with NFS mounted directory
+### Running with NFS mounted directory
 
 Please upload the data to NFS mounted directory `cloud` first.
 
