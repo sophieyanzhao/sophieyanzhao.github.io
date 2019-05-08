@@ -17,7 +17,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 3. [Running the distributed version](#running-the-distributed-version)
   * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
   * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
-4. [System Information](#system-information)
+4. [Dependencies and System Information](#system-information)
 
 ## I. Data Preprocessing 
 
@@ -258,6 +258,14 @@ Node 2:
 
 
 ## System Information
+
+### Dependencies
+
+- Python 3.6.5
+- torch 1.1.0
+- h5py 2.8.0 (we also use h5pickle, which is a wrapper of h5py)
+- boto3 1.9.143
+
 
 ### GPU Instances Information
 
