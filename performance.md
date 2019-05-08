@@ -27,7 +27,7 @@ The speedup of using different numbers of worker nodes in the cluster is illustr
 ### II. Running SGD with RNN for Sentiment Analysis
 #### Code Baseline
 
-We ran sequential RNN(1 node and 1 GPU with AWS g3.4xlarge Instance). Results are shown below:
+We ran sequential RNN (1 node with 1 GPU - AWS g3.4xlarge Instance), which would be our code baseline. Results are shown below:
 
 |epoch|time(s)|test acc| test f1|
 |-----|-------|--------|--------|
@@ -44,4 +44,11 @@ We ran sequential RNN(1 node and 1 GPU with AWS g3.4xlarge Instance). Results ar
 
 *Total training time: 9.98 hours*
 
-#### Strong Scaling 
+#### Experiment with different number of GPUs
+
+In order to see whether our model is *strongly scalable*, we ran our model on the whole dataset with different number of GPUs. Specifically, we tried 1 GPU (1 g3.4xlarge instances), 2 GPUs (2 g3.4xlarge instances), 4 GPUs (4 g3.4xlarge instances) and 8 GPUs (2 g3.16xlarge instances). We explore the properties of throughput, speed-up and efficiency in the following figure.
+
+
+
+
+
