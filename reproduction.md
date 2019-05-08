@@ -275,12 +275,11 @@ Node 2:
 | g3.4xlarge  | 1    | 16   | 122      | 8               | 3500                | 437.5                           | 20000                  | NVIDIA Tesla M60 | 
 | g3.16xlarge | 4    | 64   | 488      | 32              | 14000               | 1750                            | 80000                  | NVIDIA Tesla M60 | 
 
-### CUDA Information
-![p](cuda_info.png)
-
-
 ### CPU Instance on AWS EMR
 |          |vCPUs|Model Name                             |Memory(L2 Cache)|Operating System  |
 |----------|-----|---------------------------------------|----------------|------------------|
 |m4.xlarge |4    |Inter(R) Xeon(R) CPU E5-2686 v4 2.3GHz |256K            |Ubuntu 16.04.5 LTS|
 |m4.x2large|8    |Intel(R) Xeon(R) CPU E5-2686 v4 2.30GHz|256K            |Ubuntu 16.04.5 LTS|
+
+### CUDA Information
+![p](cuda_info.png)
