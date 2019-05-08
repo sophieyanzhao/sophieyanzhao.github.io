@@ -98,9 +98,9 @@ Also, we investigate into the convergence of our RNN with different number of GP
 
 The results exactly match our intution: 
 
-  * The principle of parallel SGD and its convergence is based on *Gradient Aggregation*. Basically, the aggregated gradient is used to approximate the true gradient, and when the number of epochs increases, this approxmation becoomes precise. Also, from the left plot, in terms of the number of epochs, we can see that 1-node version has highest rate of convergence, and 8-node version has lowes rate of convergence.
+  * The principle of parallel SGD and its convergence is based on *Gradient Aggregation*. Basically, the aggregated gradient is used to approximate the true gradient, and when the number of epochs increases, this approxmation becoomes precise. Also, from the left plot, in terms of the number of epochs, we can see that 1-node version has highest rate of convergence, and 8-node version has lowest rate of convergence.
 
-  * While the number of GPUs increasing, each GPU will handle a smaller part of data, which means the time of each epoch decreases. Also, the advantage of *Gradient Aggregation* is that the approxmation of gradient can be attained more quickly. From the right plot, in terms of the running time, the model with more GPUs converges faster, which sugeests the convergence is accelerated by data parallelism.
+  * While the number of GPUs increasing, each GPU will handle a smaller part of data, which means the time of each epoch decreases. Also, the advantage of *Gradient Aggregation* is that the approxmation of gradient can be attained more quickly. From the right plot, in terms of the running time, the model with more GPUs converges faster, which suggests the convergence is accelerated by data parallelism.
   
 #### Experiment with different distributions of GPUs per node for a fixed total number of GPUs
 
@@ -134,4 +134,43 @@ As we mentioned in *Model Section* and demonstrated in the bar plot below, our d
 
 
 For mixed GPUs setting, we test with 1 p2.xlarge + 1 g3.4xlarge and 1 p2x.large + 3 g3.4xlarge. We also run 2 g3.4xlarge and 4 g3.4xlarge to get an idea what is the rough runtime lower bound that we can achieve, since g3.4xlarge is faster than p2.xlarge. We calculate the theoretical performance by taking into of the difference in performance between one p2 and one g3, and subtract this difference from 2 and 4 g3.4xlarge, our lower bounds. We should hopefully reach the theoretical performance if everything is perfectly optimized. However, this is not reachable in our experiment, since the first epoch is run in imbalanced way to estimate the data split for the next epochs. We'd need to run a large amount of epochs to average out the overhead from the first epoch. Nonetheless, we see that our dynamic balance loader has successfully mitigated this imbalance overhead to an extent, making it faster than the non-dynamic setup for both 1 P2 +1 G3 and 1P2 + 3 G3 setups. 
+
+#### Money-speed Tradeoff
+
+AWS Cost Table:
+
+| Instance    | Price/hour |
+|-------------|------------|
+| p2.xlarge   | 0.9        |
+| g3.4xlarge  | 1.14       |
+| g3.16xlarge | 4.56       |
+
+
+Table of Total Costs for 10 epochs
+
+| Experiment                                 | # p2.xlarge | # g3.4xlarge | # g3.16xlarge | Seconds | Hours | Total Price |
+|--------------------------------------------|-------------|--------------|---------------|---------|-------|-------------|
+| Single g3.4xlarge                          | 0           | 1            | 0             | 35920   | 9.98  | 11.38       |
+| Single p2.xlarge                           | 1           | 0            | 0             | 63923   | 17.76 | 15.98       |
+| Single g3.16xlarge                         | 0           | 0            | 1             | 13156   | 3.65  | 16.64       |
+| Two g3.4xlarge                             | 0           | 2            | 0             | 24316   | 6.75  | 15.39       |
+| Two g3.16xlarge with 2 GPU only            | 0           | 0            | 1             | 15820   | 4.39  | 20.02       |
+| Four g3.4xlarge                            | 0           | 4            | 0             | 13973   | 3.88  | 17.69       |
+| Two g3.16xlarge                            | 0           | 0            | 2             | 9531    | 2.65  | 24.17       |
+| Three g3.4xlarge + one p2.xlarge           | 1           | 3            | 0             | 24256   | 6.74  | 29.12       |
+| Three g3.4xlarge + one p2.xlarge + dynamic | 1           | 3            | 0             | 23007   | 6.39  | 27.6        |
+| One g3.4xlarge + one p2.xlarge             | 1           | 1            | 0             | 39382   | 10.94 | 22.32       |
+| One g3.4xlarge + one p2.xlarge + dynamic   | 1           | 1            | 0             | 37503   | 10.42 | 21.26       |
+
+After running all the experiments, we compile the list of GPUs we have used, the total time taken for each to run 10 epochs and the corresponding costs. From this table, we see that p2.xlarge is significantly slower and more expensive than g3.4xlarge. Due to money and time constraints, we decided to run the rest of the experiments mainly in g3 instances for this reason. 
+
+From this table we can conclude that for this distributed RNN:
+
+* g3.4xlarge is the cheapest due to no communication overhead but is also quite slow taking up 10hours.
+
+* g3.16xlarge is the cheapest one amongst of the fastest ones (less than 5 hours or over 2 speedup), as it only have intranode communication which is lower than internode communication overhead. 
+
+* Therefore, single node GPUs are usually best money for value given the lower overhead involved. So, you can go for any single node multi GPUs for the best combination of speed and price. 
+
+* mixed GPUs affect the performance severely with the slowest GPU being the bottleneck, making it a high cost and low performing option. So, avoid this whenever you can. 
 
