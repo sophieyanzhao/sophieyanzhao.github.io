@@ -5,15 +5,15 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 ## Table of Contents
 1. [Metrics of Performance](#i-metrics-of-performance)
 2. [Data Preprocessing](#ii-data-preprocessing)
-  * [Speedup plot MapReduce](#speedup-plot-mapreduce)
-  * [Efficiency plot](#efficiency-plot)
+  * [Overhead and Mitigation Methods](#overhead-and-mitigation-methods)
+  * [Performance Analysis](#performance-analysis)
 3. [Running SGD with RNN for Sentiment Analysis](#iii-rnn-sgd)
   * [Code Baseline](#code-baseline)
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
   * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
   
 
-### Metrics of Performance
+### I. Metrics of Performance
 
 While measuring the performance in terms of parallelization, we focus on the following metric:
 
@@ -29,22 +29,40 @@ While measuring the performance in terms of parallelization, we focus on the fol
   
   Efficiency refers to the ratio of the speedup to the number of processors, which is ideally constant. 
 
-### I. Data Preprocessing
+### II. Data Preprocessing
+
+#### Overhead and Mitigation Methods
 
 The main overhead comes from sequential code. First, to remove stopwords, we need to compare each word in the sequence with intended stopwords to determine whether we remove this word from the sequence. We save the stopwords in a set instead of a list to shorten the runtime from O(N) to O(1). Moreover, when we combine the h5 files, it takes a long time to write data to h5 files, especially when we save as many different datasets within the h5 file. Ideally, we would want to save all data in one single h5 dataset. However, we need to save data in a single array before saving it as a dataset, and we are restricted by the memory size of the instance. Therefore, we decide to save data into eight separate datasets with equal size. For faster reading during the training process, the datasets in the h5 file are chunked, so that when the data loader accesses a single entry, it does not need to load any other data into the memory.
 
 A second source of overhead is communication. To avoid overwriting, each node in the EMR cluster writes its own h5 file and uploads to the S3 bucket. This time is reduced by having multiple nodes process the data and each upload a section of processed data at the same time.
 
-The speedup of using different numbers of worker nodes in the cluster is illustrated below. We observe that the speedup is nonlinear, and the efficiency is decreasing, indicating weak scaling.
+#### Performance Analysis
 
-***Speedup plot of running MapReduce on different numbers of worker nodes***
+The runtime with different problem sizes and numbers of processors is listed below:
 
-***Efficiency plot (SPEEDUP/#Nodes)***
+| Percentage of Full Dataset | Runtime with 2 Nodes Cluster | Runtime with 4 Nodes Cluster | Runtime with 8 Nodes Cluster |
+|----------------------------|------------------------------|------------------------------|------------------------------|
+| 25%   | 99 min | 28 min  | 14 min  |
+| 50%   | Failed | 51 min  | 30 min  |
+| 100%  | Failed | Failed  | 55 min  |
+
+We simply were not able to process more than 1/8 of the data on one single node because the worker nodes get unstable. Even when we tried to process 1/4 of the data on a two nodes cluster, the runtime is abnormally long. Therefore, we are not able to calculate metrics like speedup under week scheduling setting, and speedup under strong scheduling setting is calculated against runtime on two nodes.
+
+Under Strong scheduling setting, the metrics with fixed problem size (25% of the data) are calculated as follows:
+
+![p](MapReduce_Strong.png)
+
+Under the idea of weak scheduling, the runtime with fixed problem size per node is illustrated below:
+
+![p](MapReduce_Weak.png)
+
+We observe roughly linear speedup and throughput with fixed problem size. We suspect that the runtime for 25% data on two node cluster is abnormal, so the relationship should be more linear, and the efficiency should be similar. Moreover, the runtime for fixed problem size per processor should be similar, as well.
 
 
 
 
-### II. Running SGD with RNN for Sentiment Analysis
+### III. Running SGD with RNN for Sentiment Analysis
 #### Code Baseline
 
 We run sequential RNN on 1 g3.4xlarge instance, which would be our code baseline. Results are shown below:
