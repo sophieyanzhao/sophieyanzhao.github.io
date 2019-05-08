@@ -39,16 +39,16 @@ We successfully deployed RNN model to multiple GPU’s and carried out experimen
 
 ## References
 
-R. He, J. McAuley. Modeling the visual evolution of fashion trends
+[1] R. He, J. McAuley. Modeling the visual evolution of fashion trends
 with one-class collaborative filtering. WWW, 2016
 
-J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based
+[2] J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based
 recommendations on styles and substitutes. SIGIR, 2015
 
-“PyTorch 1.0 Distributed Trainer with Amazon AWS.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
+[3] “PyTorch 1.0 Distributed Trainer with Amazon AWS.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
 
-Subramanian, Vishnu, and Manas Agarwal. Deep Learning with PyTorch: a Practical Approach to Building Neural Network Models Using PyTorch. Packt Publishing, 2018.
+[4] Subramanian, Vishnu, and Manas Agarwal. Deep Learning with PyTorch: a Practical Approach to Building Neural Network Models Using PyTorch. Packt Publishing, 2018.
 
-Davis, Matt. SnakeViz, jiffyclub.github.io/snakeviz/.
+[5] Davis, Matt. SnakeViz, jiffyclub.github.io/snakeviz/.
 
-Goyal, Priya, et al. "Accurate, large minibatch sgd: Training imagenet in 1 hour." arXiv preprint arXiv:1706.02677 (2017).
+[6] Goyal, Priya, et al. "Accurate, large minibatch sgd: Training imagenet in 1 hour." arXiv preprint arXiv:1706.02677 (2017).
