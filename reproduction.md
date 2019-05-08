@@ -1,8 +1,23 @@
 # Reproduction Instructions
 
-Our source code can be found at:
+Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 
-https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs
+**Our source code can be found at** [link](https://github.com/Duuuuuu/Large-Scale-Distributed-Sentiment-Analysis-with-RNNs)
+
+## Table of Contents
+1. [Data Preprocessing](#i-data-preprocessing)
+  * [MapReduce](#i1-mapreduce)
+  * [Combine Generate h5 Files](#i2-combine-generate-h5-files)
+2. [RNN with Distributed SGD](#ii-rnn-with-distributed-sgd)
+  * [Deploying GPU Cluster on AWS](#deploying-gpu-cluster-on-aws)
+  * [Environment Setup](#environment-setup)
+  * [Getting the processed data](#getting-the-processed-data)
+  * [Running the sequential version (only need 1 node)](#running-the-sequential-version--only-need-1-node-)
+  * [Profiling the sequential version](#profiling-the-sequential-version)
+3. [Running the distributed version](#running-the-distributed-version)
+  * [Configure NFS for file sharing](#configure-nfs-for-file-sharing)
+  * [Running with NFS mounted directory](#running-with-nfs-mounted-directory)
+4. [Dependencies and System Information](#system-information)
 
 ## I. Data Preprocessing 
 
@@ -240,3 +255,34 @@ Node 1:
 Node 2:
 
 ```python -m torch.distributed.launch --nproc_per_node=1 --nnodes=2 --node_rank=1 --master_addr="172.31.35.159" --master_port=23456 dynamic_rnn.py --dir ../cloud/combined_result_5class.h5  --batch 128 --lr 0.1 --epochs 10 --dynamic -1 --workers 8 --n_vocab 10003 --filename model_2n_1g > log.out &```
+
+
+## System Information
+
+### Dependencies
+
+- Python 3.6.5
+- torch 1.1.0
+- h5py 2.8.0 (we also use h5pickle, which is a wrapper of h5py)
+- boto3 1.9.143
+
+
+### GPU Instances Information
+
+|     | GPUs | vCPU | Mem(GiB) | GPU Memory(GiB) | Max Bandwidth(Mbps) | Max Throughput(MB/s 128 KB I/O) | Maximum IOPS(16KB I/O) | GPU Card         | 
+|-------------|------|------|----------|-----------------|---------------------|---------------------------------|------------------------|------------------| 
+| p2.xlarge   | 1    | 4    | 61       | 12              | 750                 | 93.75                           | 6000                   | NVIDIA Tesla K80 | 
+| g3.4xlarge  | 1    | 16   | 122      | 8               | 3500                | 437.5                           | 20000                  | NVIDIA Tesla M60 | 
+| g3.16xlarge | 4    | 64   | 488      | 32              | 14000               | 1750                            | 80000                  | NVIDIA Tesla M60 | 
+
+### CPU Instance on AWS EMR
+
+|            | vCPUs      | Model Name                              | Memory(L2)       | Operating System   |                   
+|------------|------------|-----------------------------------------|------------------|--------------------| 
+| m4.xlarge  | 4          | Inter(R) Xeon(R) CPU E5-2686 v4 2.3GHz  | 256K             | Ubuntu 16.04.5 LTS | 
+| m4.x2large | 8          | Intel(R) Xeon(R) CPU E5-2686 v4 2.30GHz | 256K             | Ubuntu 16.04.5 LTS | 
+
+
+
+### CUDA Information
+![p](cuda_info.png)
