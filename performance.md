@@ -10,6 +10,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 3. [Running SGD with RNN for Sentiment Analysis](#iii-rnn-sgd)
   * [Code Baseline](#code-baseline)
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
+  * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
   
 
 ### Metrics of Performance
@@ -46,7 +47,7 @@ The speedup of using different numbers of worker nodes in the cluster is illustr
 ### II. Running SGD with RNN for Sentiment Analysis
 #### Code Baseline
 
-We run sequential RNN (1 node with 1 GPU - AWS g3.4xlarge Instance), which would be our code baseline. Results are shown below:
+We run sequential RNN on 1 g3.4xlarge instance, which would be our code baseline. Results are shown below:
 
 |epoch|time(s)|test acc| test f1|
 |-----|-------|--------|--------|
@@ -62,6 +63,14 @@ We run sequential RNN (1 node with 1 GPU - AWS g3.4xlarge Instance), which would
 |10   |3573   |84.96%  |0.86    |
 
 *Total training time: 9.98 hours*
+
+Also, we profile this code, whose profiling results are shown below:
+
+![p](profiling.png)
+
+
+
+Besides, since AWS does not approve our request of 8 g3.4xlarge instances, we can only use 4 g3.4xlarge instances (each with 1 GPU) and 2 g3.16xlarger instance (each with 4 GPUs). Thus, the results would be a little bit biased due to different memory, network efficiency and configurations, etc.
 
 #### Experiment with different number of GPUs
 
@@ -81,10 +90,9 @@ The results exactly match our intution:
 
   * While the number of GPUs increasing, each GPU will handle a smaller part of data, which means the time of each epoch decreases. Also, the advantage of *Gradient Aggregation* is that the approxmation of gradient can be attained more quickly. From the right plot, in terms of the running time, the model with more GPUs converges faster, which sugeests the convergence is accelerated by data parallelism.
   
-#### Experiment 
+#### Experiment with different distributions of GPUs per node for a fixed total number of GPUs
 
-
-
+We also experiment our model when the total number of GPUs is fixed. Specifically, with total 4 GPUs, we ran our model on 1 node with 4 GPUs (1 g3.16xlarge instance), 2 nodes with 2 GPUs (2 g3.16xlarge instance, each only use 2 GPUs) and 4 nodes with 1 GPUs (1 g3.16xlarge instance) 
 
 
 
