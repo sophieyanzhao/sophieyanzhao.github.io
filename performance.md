@@ -131,3 +131,7 @@ As we can see, the similar results with strong scaling are obtained under weak s
 As we mentioned in *Model Section* and demonstrated in the bar plot below, our dynamic load balancer has shown the success while using mixed GPUs (p2xlarger and g3.4xlarger). 
 
 ![p](dynamic.png)
+
+
+For mixed GPUs setting, we test with 1 p2.xlarge + 1 g3.4xlarge and 1 p2x.large + 3 g3.4xlarge. We also run 2 g3.4xlarge and 4 g3.4xlarge to get an idea what is the rough runtime lower bound that we can achieve, since g3.4xlarge is faster than p2.xlarge. We calculate the theoretical performance by taking into of the difference in performance between one p2 and one g3, and subtract this difference from 2 and 4 g3.4xlarge, our lower bounds. We should hopefully reach the theoretical performance if everything is perfectly optimized. However, this is not reachable in our experiment, since the first epoch is run in imbalanced way to estimate the data split for the next epochs. We'd need to run a large amount of epochs to average out the overhead from the first epoch. Nonetheless, we see that our dynamic balance loader has successfully mitigated this imbalance overhead to an extent, making it faster than the non-dynamic setup for both 1 P2 +1 G3 and 1P2 + 3 G3 setups. 
+
