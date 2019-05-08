@@ -55,17 +55,10 @@ Under the idea of weak scheduling, the runtime with fixed problem size per node 
 
 We observe roughly linear speedup and throughput with fixed problem size. We suspect that the runtime for 25% data on two node cluster is abnormal, so the relationship should be more linear, and the efficiency should be similar. Moreover, the runtime for fixed problem size per processor should be similar, as well.
 
-
-
-
-<<<<<<< HEAD
 ### III. Running SGD with RNN for Sentiment Analysis
-=======
-### II. Running SGD with RNN for Sentiment Analysis
 
 Since AWS does not approve our request of 8 g3.4xlarge instances, we can only use 4 g3.4xlarge instances (each with 1 GPU) and 2 g3.16xlarger instance (each with 4 GPUs). Along with limited credits, our experiment results would be a little bit biased and limited due to different memory, network, I/O and configurations, etc.
 
->>>>>>> b44301ef9cf8644bae9f7dbd95a90d47057c7148
 #### Code Baseline
 
 We run sequential RNN on 1 g3.4xlarge instance, which would be our code baseline. Results are shown below:
