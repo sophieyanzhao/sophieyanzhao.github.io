@@ -7,7 +7,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 2. [Data Preprocessing](#ii-data-preprocessing)
   * [Overhead and Mitigation Methods](#overhead-and-mitigation-methods)
   * [Performance Analysis](#performance-analysis)
-3. [Running SGD with RNN for Sentiment Analysis](#iii-rnn-sgd)
+3. [Running SGD with RNN for Sentiment Analysis](#iii-running-sgd-with-rnn-for-sentiment-analysis)
   * [Code Baseline](#code-baseline)
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-gpus)
   * [Experiment with different distribution of GPUs](#experiment-with-different-distribution-of-gpus)
