@@ -22,15 +22,19 @@ The dataset contains around 142 millions reviews, with maximum sentence length o
 We successfully deployed RNN model to multiple GPU’s and carried out experiments with varying number of nodes and batch sizes. We also implemented a **dynamic load balancer** that distributes batches of deferring sizes to GPUs based on their performance at the start of each epoch
 
 ## Lessons Learnt and Insights:
-1.	Money and speed tradeoff: [insert a table]
-2.	It is impossible to load big data files into memory via traditional means. It is necessary to utilize format like HDF5 that allows assignment of dataset without loading it into memory.
-3.	By profiling GPU, we found that the lowest one is a serious bottleneck, which motivates our dynamic load balancer.
+1.	Based on money-speed tradeoff, we learned that for RNN with intensive data loading:
+   * G3.4xlarge is the cheapest option out all due to no communication overhead.
+   * G3.16xlarge is the cheapest option amongst the fastest options (< 5 hours / speedup > 2) with only intra node communications between GPUs
+   * Therefore, single node with multi-GPUs tend to have best value for money given lower communication overhead
+   * Same GPU model should be used for multi node setup to avoid the slowest GPU becoming a bottleneck for the entire training.
+2. Our dynamic load balancer is motivated by the case of mixed GPU cluster or unstable performance for multi GPUs.
+3.	It is impossible to load big data files into memory via traditional means. It is necessary to utilize format like HDF5 that allows assignment of dataset without loading it into memory.
 4.	Installing packages on EMR worker nodes can be achieved by adding custom bootstrap actions.
 
 ## Future Work:
 1.	Currently, files are shared via a Network File System (NFS). Keeping a local copy can help mitigate resources contention problem when too many nodes are accessing the same NFS.
 2.	Load balancer adjust batch size on each GPU every epoch. Adaptively adjust batch size after a smaller time interval will help speed up the application significantly. 
-3.	It will be interesting to test our application on the newly released P3 GPU instances.
+3.	It will be interesting to test our application on the newly released P3 GPU instances for more money speed tradeoffs.
 
 ## References
 
