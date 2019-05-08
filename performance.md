@@ -13,6 +13,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
   * [Experiment with different problem size](#experiment-with-different-problem-size)
   * [Experiment with mixed of GPUs using dynamic load balancer](#experiment-with-mixed-of-GPUs-using-dynamic-load-balancer)
+  * [Money-speed Tradeoff](#money-speed-tradeoff)
   
 
 ### I. Metrics of Performance
