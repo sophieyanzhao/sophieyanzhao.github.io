@@ -16,7 +16,9 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
 
 While measuring the performance in terms of parallelization, we focus on the following metric:
 
-  * Throughput: 
+  * Throughput:
+  
+  Throughput is defined as the ratio of problem size to the running time. 
   
   * Speedup:
   
@@ -24,7 +26,7 @@ While measuring the performance in terms of parallelization, we focus on the fol
   
   * Efficiency:
   
-  Efficiency refers to 
+  Efficiency refers to the ratio of the speedup to the number of processors, which is ideally constant. 
 
 ### I. Data Preprocessing
 
@@ -75,10 +77,10 @@ Also, we investigate into the convergence of our RNN with different number of GP
 
 The results exactly match our intution: 
 
-1) While the number of GPUs increasing, each GPU will handle a
+  * The principle of parallel SGD and its convergence is based on *Gradient Aggregation*. Basically, the aggregated gradient is used to approximate the true gradient, and when the number of epochs increases, this approxmation becoomes precise. Also, from the left plot, in terms of the number of epochs, we can see that 1-node version has highest rate of convergence, and 8-node version has lowes rate of convergence.
 
-Thus, the convergence is accelerated by data parallelism. Specifically, 
-
+  * While the number of GPUs increasing, each GPU will handle a smaller part of data, which means the time of each epoch decreases. Also, the advantage of *Gradient Aggregation* is that the approxmation of gradient can be attained more quickly. From the right plot, in terms of the running time, the model with more GPUs converges faster, which sugeests the convergence is accelerated by data parallelism.
+  
 #### Experiment 
 
 
