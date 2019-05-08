@@ -11,23 +11,19 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Code Baseline](#code-baseline)
   * [Experiment with different number of GPUs](#experiment-with-different-number-of-GPUs)
   * [Experiment with different distributions of GPUs per node for a total fixed number of GPUs](#experiment-with-different-distributions-of-GPUs-per-node-for-a-total-fixed-number-of-GPUs)
+  * [Experiment with different problem size](#experiment-with-different-problem-size)
+  * [Experiment with mixed of GPUs - advanced feature](#experiment-with-mixed-of-GPUs---advanced-feature)
   
 
 ### Metrics of Performance
 
 While measuring the performance in terms of parallelization, we focus on the following metric:
 
-  * Throughput:
+  * **Throughput**: Throughput is defined as the ratio of problem size to the running time. 
   
-  Throughput is defined as the ratio of problem size to the running time. 
+  * **Speedup**: In general, speedup is a number that measures the relative performance of two systems processing the same problem. Specifically, if the amount of time to complete a work unit with 1 processing element is t1, and the amount of time to complete the same unit of work with N processing elements is tN, the strong scaling speedup is t1/tn. Also, under the weal scaling setting, t1 and tn are both measured with different total problem size (same size for every node), i.e., t1 will change with the number of processor, Then the weak scaling speedup is calculated correspondingly. Note the definition of weak scaling speedup is usually obscure, here we use this definition.
   
-  * Speedup:
-  
-  In general, speedup is a number that measures the relative performance of two systems processing the same problem. Specifically, if the amount of time to complete a work unit with 1 processing element is t1, and the amount of time to complete the same unit of work with N processing elements is tN, the strong scaling speedup is t1/tn. Also, under the weal scaling setting, t1 and tn are both measured with different total problem size (same size for every node), i.e., t1 will change with the number of processor, Then the weak scaling speedup is calculated correspondingly. Note the definition of weak scaling speedup is usually obscure, here we use this definition.
-  
-  * Efficiency:
-  
-  Efficiency refers to the ratio of the speedup to the number of processors, which is ideally constant. 
+  * **Efficiency**: Efficiency refers to the ratio of the speedup to the number of processors, which is ideally constant. 
 
 ### I. Data Preprocessing
 
@@ -45,6 +41,9 @@ The speedup of using different numbers of worker nodes in the cluster is illustr
 
 
 ### II. Running SGD with RNN for Sentiment Analysis
+
+Since AWS does not approve our request of 8 g3.4xlarge instances, we can only use 4 g3.4xlarge instances (each with 1 GPU) and 2 g3.16xlarger instance (each with 4 GPUs). Along with limited credits, our experiment results would be a little bit biased and limited due to different memory, network, I/O and configurations, etc.
+
 #### Code Baseline
 
 We run sequential RNN on 1 g3.4xlarge instance, which would be our code baseline. Results are shown below:
@@ -68,9 +67,7 @@ Also, we profile this code, whose profiling results are shown below:
 
 ![p](profiling.png)
 
-
-
-Besides, since AWS does not approve our request of 8 g3.4xlarge instances, we can only use 4 g3.4xlarge instances (each with 1 GPU) and 2 g3.16xlarger instance (each with 4 GPUs). Thus, the results would be a little bit biased due to different memory, network efficiency and configurations, etc.
+From this profiling result of a single g3.4xlarge instance, we see that this is mainly a GPU intensive task where tasks such as, backward and forward propagations, take up to 50% of the entire run time. This is also somewhat CPU intensive in that data loading takes about 10% of the runtime. Therefore, we should mainly focusing on parallelizing the GPU aspect and its overhead while reducing the data loading process through multi-core parallelization whenever possible.
 
 #### Experiment with different number of GPUs
 
@@ -78,7 +75,7 @@ In order to see whether our model is *strongly scalable*, we run our model on th
 
 ![p](strong_scaling.png)
 
-Consistent with Facebook's paper, we can see the linear throughput and log-linear speed-up. However, the efficiency decreases as the number of GPUs increases, which indicates our model is not strongly scalable. 
+Consistent with Facebook's paper, we can see the linear throughput and log-linear speed-up. However, the efficiency decreases as the number of GPUs increases, which indicates our model is not strongly scalable. Further, here we calculate the speedup and efficiency in terms of two "time" - real execution time for 10 epochs and 
 
 Also, we investigate into the convergence of our RNN with different number of GPUs. In terms of the number of epochs and execution time, we set the loss value *0.13* as the convergence threshold, and obtain the results as follow:
 
@@ -92,7 +89,29 @@ The results exactly match our intution:
   
 #### Experiment with different distributions of GPUs per node for a fixed total number of GPUs
 
-We also experiment our model when the total number of GPUs is fixed. Specifically, with total 4 GPUs, we ran our model on 1 node with 4 GPUs (1 g3.16xlarge instance), 2 nodes with 2 GPUs (2 g3.16xlarge instance, each only use 2 GPUs) and 4 nodes with 1 GPUs (1 g3.16xlarge instance) 
+We also experiment our model when the total number of GPUs is fixed. Specifically, with total 4 GPUs, we ran our model on 1 node with 4 GPUs (1 g3.16xlarge instance), 2 nodes with 2 GPUs (2 g3.16xlarge instance, each only use 2 GPUs) and 4 nodes with 1 GPUs (1 g3.16xlarge instance). The results are shown in this table:
 
+| # of Node | # of GPUs | Time (min/epoch) | Speed-up |
+|-----------|-----------|------------------|----------|
+| 1         | 4         | 21.9             | 2.73     |
+| 2         | 2         | 26.4             | 2.27     |
+| 4         | 1         | 23.3             | 2.57     |
+
+We can see that 1-node-4-GPU version has best speedup and 2-node-2-GPU version gives the worst speedup. Also, we assess each model's covergence, which are shown in the following plot:
+
+![p](convergence_same_gpus.png)
+
+This plot shows that these three version has same convergence rate, except that the loss 4-node-1-GPU version decreases slowly at first. Perhaps it is becuase the communication overhead, but also can be the stochasticity introduced by SGD.
+
+#### Experiment with different problem size
+
+In order to show weak scaling speedup and efficiency, we randomly sample 25%, 50%, and 100% data and run our RNN model on them with 1 GPU (1 g3.4xlarge instances), 2 GPUs (2 g3.4xlarge instances), 4 GPUs (4 g3.4xlarge instances). The result plots are shown below:
+
+![p](weak_scaling.png)
+
+As we can see, the similar results with strong scaling are obtained under weak scaling setting. 
+
+
+#### Experiment with mixed of GPUs - advanced feature
 
 
