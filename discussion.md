@@ -51,6 +51,6 @@ recommendations on styles and substitutes. SIGIR, 2015
 
 [5] Davis, Matt. SnakeViz, jiffyclub.github.io/snakeviz/.
 
-[6] Goyal, Priya, et al. "Accurate, large minibatch sgd: Training imagenet in 1 hour." arXiv preprint arXiv:1706.02677 (2017).
+[6] Goyal, Priya, et al. "Accurate, large minibatch sgd: Training imagenet in 1 hour." arXiv preprint arXiv:1706.02677, 2017.
 
 [7] Zinkevich, Martin, et al. "Parallelized stochastic gradient descent." Advances in neural information processing systems. 2010.
