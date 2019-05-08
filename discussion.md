@@ -8,7 +8,7 @@ Click <a href="http://sophieyanzhao.github.io">here</a> to go back to Homepage.
   * [Distributed Computing](#distributed-computing)
 2. [Lessons Learnt and Insights](#lessons-learnt-and-insights)
 3. [Future Work](#future-work)
-
+4. [References](#references)
 
 
 ## Goals Achieved:
@@ -38,6 +38,12 @@ We successfully deployed RNN model to multiple GPU’s and carried out experimen
 3.	It will be interesting to test our application on the newly released P3 GPU instances for more money speed tradeoffs.
 
 ## References
+
+R. He, J. McAuley. Modeling the visual evolution of fashion trends
+with one-class collaborative filtering. WWW, 2016
+
+J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based
+recommendations on styles and substitutes. SIGIR, 2015
 
 “PyTorch 1.0 Distributed Trainer with Amazon AWS¶.” PyTorch 1.0 Distributed Trainer with Amazon AWS - PyTorch Tutorials 1.1.0.dev20190507 Documentation, pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html.
 
