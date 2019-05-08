@@ -19,7 +19,7 @@ The null classifier predicting majority class only achieves 78% accuracy. This i
 The dataset contains around 142 millions reviews, with maximum sentence length of over 2000 words. All data preprocessing tasks are carried out on MapReduce and from then onwards reviews are of fixed-length number format. We experimented with multiple storage formats and finally managed large files with hdf5.
 
 ### Distributed Computing
-We successfully deployed RNN model to multiple GPU’s and carried out experiments with varying number of nodes and batch sizes. We also implemented a **dynamic load balancer** that distributes batches of deferring sizes to GPUs based on their performance at the start of each epoch
+We successfully deployed RNN model to multiple GPU’s and carried out experiments with varying number of nodes and batch sizes. Through parallelization, we reduced the runtime from 18 hours using a single p2.xlarge down to 2.5 hours using 2 g3.16xlarge. We also implemented a **dynamic load balancer** that distributes batches of deferring sizes to GPUs based on their performance at the start of each epoch
 
 ## Lessons Learnt and Insights:
 1.	Based on money-speed tradeoff, we learned that for RNN with intensive data loading:
